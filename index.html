@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inspección Diaria de Seguridad - Grúa Eléctrica Liugong</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Inter',sans-serif}
+  .font-signature{font-family:'Dancing Script',cursive}
+</style>
+</head>
+<body class="bg-slate-100 min-h-screen py-6 px-2 sm:px-4 text-slate-800">
+<div class="max-w-7xl mx-auto bg-white rounded-xl shadow-xl border border-slate-200 p-4 sm:p-8">
+
+  <!-- ENCABEZADO -->
+  <div class="flex flex-col md:flex-row justify-between items-center border-b-2 border-slate-900 pb-4 mb-6 gap-4">
+    <div class="w-full md:w-3/4">
+      <div class="flex items-center gap-3">
+        <span class="bg-blue-900 text-white text-xs font-black px-2.5 py-1 rounded tracking-wider uppercase">ACCESS</span>
+        <h1 class="text-lg sm:text-xl font-bold uppercase text-slate-900 tracking-tight leading-tight">
+          INSPECCIÓN DIARIA DE SEGURIDAD – GRÚA ELÉCTRICA LIUGONG
+        </h1>
+      </div>
+      <p class="text-[11px] text-slate-500 font-medium mt-1 tracking-wide">
+        POE: 1 / ed: 01 &nbsp;|&nbsp; Fecha de edición: 15/06/2026 &nbsp;|&nbsp; Fecha de revisión: 01/07/2026
+      </p>
+    </div>
+    <div class="w-full md:w-1/4 flex justify-start md:justify-end items-center">
+      <div class="h-14 w-36 bg-slate-50 border border-slate-200 rounded flex items-center justify-center p-2 shadow-inner">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF48GAfBiNyZh2fPJF-l8q0Dk1Dqn5tQ2r4g&s" alt="Logo Access" class="max-h-full max-w-full object-contain"
+             onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'font-black text-blue-900 text-lg tracking-widest\'>ACCESS</span>';">
+      </div>
+    </div>
+  </div>
+
+  <form id="inspectionForm" onsubmit="return false;" class="space-y-6">
+
+    <!-- DATOS GENERALES -->
+    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
+      <h2 class="text-xs font-bold uppercase tracking-wider text-blue-900 border-b pb-1">Información General del Equipo y Operador</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+        <div><label class="block font-bold text-slate-600 mb-1">Bodega / Instalación:</label>
+          <input type="text" id="bodega" value="Bodega Banco Estado Barroso" class="w-full border border-slate-300 rounded px-2.5 py-1.5 font-semibold focus:ring-2 focus:ring-blue-800 outline-none"></div>
+        <div><label class="block font-bold text-slate-600 mb-1">Semana del (fecha de inicio):</label>
+          <input type="date" id="fecha" class="w-full border border-slate-300 rounded px-2.5 py-1.5 font-bold focus:ring-2 focus:ring-blue-800 outline-none"></div>
+        <div><label class="block font-bold text-slate-600 mb-1">Turno:</label>
+          <div class="flex items-center gap-4 py-1.5 font-bold">
+            <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="turno" value="1º" checked> 1º</label>
+            <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="turno" value="2º"> 2º</label>
+            <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="turno" value="3º"> 3º</label>
+          </div></div>
+        <div><label class="block font-bold text-slate-600 mb-1">Marca:</label>
+          <input type="text" id="marca" value="LIUGONG" class="w-full border border-slate-300 rounded px-2.5 py-1.5 font-semibold focus:ring-2 focus:ring-blue-800 outline-none"></div>
+        <div><label class="block font-bold text-slate-600 mb-1">Modelo:</label>
+          <input type="text" id="modelo" value="CLG2020A-S/E" class="w-full border border-slate-300 rounded px-2.5 py-1.5 font-semibold focus:ring-2 focus:ring-blue-800 outline-none"></div>
+        <div><label class="block font-bold text-slate-600 mb-1">Número de serie:</label>
+          <input type="text" id="serie" value="CLG2000ZVPT881792" class="w-full border border-slate-300 rounded px-2.5 py-1.5 font-mono font-semibold focus:ring-2 focus:ring-blue-800 outline-none"></div>
+        <div><label class="block font-bold text-slate-600 mb-1">Grúa conducida por (Operador):</label>
+          <input type="text" id="operador" placeholder="Escriba el nombre del operador" class="w-full border border-slate-300 rounded px-2.5 py-1.5 font-semibold focus:ring-2 focus:ring-blue-800 outline-none" oninput="updateSignatures()"></div>
+        <div><label class="block font-bold text-slate-600 mb-1">Licencia de Conducir al Día:</label>
+          <div class="flex items-center gap-4 py-1.5 font-bold">
+            <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="licencia" value="SI" checked> SÍ</label>
+            <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="licencia" value="NO"> NO</label>
+          </div></div>
+        <div><label class="block font-bold text-slate-600 mb-1">Supervisor a Cargo (V°B°):</label>
+          <input type="text" id="supervisor" placeholder="Escriba el nombre del supervisor" class="w-full border border-slate-300 rounded px-2.5 py-1.5 font-semibold focus:ring-2 focus:ring-blue-800 outline-none" oninput="updateSignatures()"></div>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs border-t border-slate-200 pt-3">
+        <div><label class="block font-bold text-slate-600 mb-1">Horómetro Entrada:</label>
+          <input type="number" step="0.1" id="horometroEntrada" class="w-full border border-slate-300 rounded px-2.5 py-1.5 font-mono font-bold text-blue-900 focus:ring-2 focus:ring-blue-800 outline-none"></div>
+        <div><label class="block font-bold text-slate-600 mb-1">Horómetro Salida:</label>
+          <input type="number" step="0.1" id="horometroSalida" class="w-full border border-slate-300 rounded px-2.5 py-1.5 font-mono font-bold text-blue-900 focus:ring-2 focus:ring-blue-800 outline-none"></div>
+        <div><label class="block font-bold text-slate-600 mb-1">Hora Inspección Entrada:</label>
+          <input type="time" id="horaEntrada" class="w-full border border-slate-300 rounded px-2.5 py-1.5 font-bold focus:ring-2 focus:ring-blue-800 outline-none"></div>
+        <div><label class="block font-bold text-slate-600 mb-1">Hora Inspección Salida:</label>
+          <input type="time" id="horaSalida" class="w-full border border-slate-300 rounded px-2.5 py-1.5 font-bold focus:ring-2 focus:ring-blue-800 outline-none"></div>
+      </div>
+    </div>
+
+    <p class="text-[11px] text-slate-600 bg-amber-50 border border-amber-300 rounded p-2">
+      Un operador certificado debe completar esta sección al inicio de cada turno de trabajo. Si se encuentra alguna discrepancia, anótela abajo y programe la reparación con un mecánico calificado. Los equipos defectuosos se deben bloquear y señalizar con una etiqueta de fuera de servicio. <b>No operar hasta que se complete la reparación.</b> Si no corresponde, escriba "N/A" en observaciones.
+    </p>
+
+    <!-- SECCIONES (generadas por JS) -->
+    <div id="sections" class="space-y-6"></div>
+
+    <!-- INICIALES Y ACCIONES CORRECTIVAS -->
+    <div class="overflow-x-auto rounded-lg border border-slate-900 shadow-sm">
+      <table class="w-full text-xs text-left border-collapse min-w-[700px]">
+        <thead class="bg-slate-800 text-white uppercase tracking-wider font-bold">
+          <tr>
+            <th class="p-2.5 w-28">Día</th>
+            <th class="p-2.5 w-28 text-center">Iniciales operador</th>
+            <th class="p-2.5">Acciones correctivas / comentarios</th>
+            <th class="p-2.5 w-48">Daño</th>
+            <th class="p-2.5 w-40">Fecha en que se completó</th>
+          </tr>
+        </thead>
+        <tbody id="acc" class="divide-y divide-slate-300 bg-white font-medium"></tbody>
+      </table>
+    </div>
+
+    <!-- FIRMAS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+      <div class="bg-slate-50 border-2 border-slate-800 rounded-lg p-4 flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-xs font-bold uppercase tracking-wider text-slate-700">Firma Operador de Grúa</label>
+            <span class="text-[10px] bg-blue-100 text-blue-900 px-2 py-0.5 rounded font-bold uppercase">Digital / Manuscrita</span>
+          </div>
+          <div class="bg-white border border-slate-300 rounded p-3 text-center my-2 h-24 flex items-center justify-center">
+            <span id="sig-operator-display" class="font-signature text-3xl text-blue-950 select-none">Nombre Operador</span>
+          </div>
+        </div>
+        <div class="border-t border-slate-300 pt-2 text-center">
+          <p id="sig-operator-name" class="text-xs font-bold text-slate-800 uppercase">Nombre Operador</p>
+          <p class="text-[9px] text-slate-500 font-bold uppercase tracking-tighter">Firma realizada en conformidad operacional</p>
+        </div>
+      </div>
+      <div class="bg-slate-50 border-2 border-slate-800 rounded-lg p-4 flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-xs font-bold uppercase tracking-wider text-slate-700">V°B° Y Firma Supervisor de Grúas</label>
+            <span class="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold uppercase">Validación</span>
+          </div>
+          <div class="bg-white border border-slate-300 rounded p-3 text-center my-2 h-24 flex items-center justify-center">
+            <span id="sig-supervisor-display" class="font-signature text-3xl text-blue-950 select-none">Nombre Supervisor</span>
+          </div>
+        </div>
+        <div class="border-t border-slate-300 pt-2 text-center">
+          <p id="sig-supervisor-name" class="text-xs font-bold text-slate-800 uppercase">Nombre Supervisor</p>
+          <p class="text-[9px] text-slate-500 font-bold uppercase tracking-tighter">Aprobación y Supervisión de Seguridad</p>
+          <input type="text" id="cert" placeholder="Nro. de certificado" class="mt-2 w-48 text-center border border-slate-300 rounded px-2 py-1 text-xs">
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTONES -->
+    <div class="pt-4 flex flex-col sm:flex-row gap-4">
+      <button type="button" onclick="limpiar()" class="w-full sm:w-1/3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3.5 px-4 rounded-lg transition uppercase tracking-wider text-xs">Limpiar formulario</button>
+      <button type="button" onclick="generatePDF()" class="w-full sm:w-2/3 bg-blue-900 hover:bg-black text-white font-bold py-3.5 px-4 rounded-lg transition tracking-widest uppercase shadow-lg text-sm">Finalizar e Imprimir Reporte PDF</button>
+    </div>
+  </form>
+</div>
+
+<script>
+const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const SECCIONES = [
+  { t: 'SECCIÓN 1: PUNTOS DE INSPECCIÓN DEL LUGAR DE TRABAJO', items: [
+    ['Condiciones del suelo','Residuos o escombros, agujeros, desniveles'],
+    ['Riesgo en altura','Estructuras, tuberías de suministros, ventiladores, luces, etc.'],
+    ['Acceso no autorizado','Personas, vehículos, equipos, etc.'],
+    ['Artículos de seguridad','Extintor de incendios, EPP, estaciones de lavado de ojos, kit de primeros auxilios, etc.'] ]},
+  { t: 'SECCIÓN 2: PUNTOS DE INSPECCIÓN VISUAL (SIN LLAVE)', items: [
+    ['Revisión general','Freno de estacionamiento, pérdida de fluidos en el suelo, daños, etc.'],
+    ['Horquillas / escudo de carga','Torceduras, roturas, pasadores de sujeción, desgaste, incompatibilidad'],
+    ['Mástil, cadena de levantamiento, rodillos','Soldaduras rotas, rajaduras, torceduras, aceite, óxido'],
+    ['Cilindros hidráulicos, mangueras','Pérdidas, daños, burbujas/cortes en manguera'],
+    ['Neumáticos/ruedas – Todo','Tuercas de las ruedas, daños en llantas, flancos, rodadura, presión'],
+    ['Pórtico de seguridad – Todos los lados','Soldaduras rotas, pernos faltantes, áreas dañadas'],
+    ['Placa de capacidad / calcomanías','Legibles, adheridas a la unidad'],
+    ['Cinturón / sistema de sujeción del operador','Desgastes, daños, funcionamiento correcto; se traba al conectarse'],
+    ['Controles y pedales','Los pedales y controles hidráulicos se mueven sin esfuerzo'],
+    ['Contrapeso','Pernos, daños, rajaduras en caño de escape/radiador'],
+    ['Cilindro de propano','Colocación adecuada, daños, pérdidas, fecha'],
+    ['Indicadores de fluido (accesibles)','Aceite del motor/sistema hidráulico/frenos/transmisión/refrigerante'],
+    ['Batería','Tapones de las celdas cerrados, pérdidas, corrosión, cables'] ]},
+  { t: 'SECCIÓN 3: INSPECCIONES OPERATIVAS (CON LLAVE)', items: [
+    ['Cinturones de seguridad','Cinturones de seguridad puestos antes de todo movimiento'],
+    ['Medidores','Todos los indicadores y las luces de advertencia'],
+    ['Dispositivos de advertencia','Funcionamiento correcto de todas las luces, bocina, alarma de reversa'],
+    ['Frenos de estacionamiento / servicio / hombre muerto','El freno de estacionamiento se mantiene con el equipo en funcionamiento; el freno de servicio detiene la unidad'],
+    ['Todas las operaciones hidráulicas','No hay pérdidas en todo su rango de movimiento'],
+    ['Dirección','No hay ruidos inusuales, exceso de juego libre'] ]}
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
+  render();
+  updateSignatures();
+});
+
+function updateSignatures() {
+  const op = document.getElementById('operador').value || 'Nombre Operador';
+  const sup = document.getElementById('supervisor').value || 'Nombre Supervisor';
+  document.getElementById('sig-operator-display').innerText = op;
+  document.getElementById('sig-operator-name').innerText = op;
+  document.getElementById('sig-supervisor-display').innerText = sup;
+  document.getElementById('sig-supervisor-name').innerText = sup;
+}
+
+// Solo uno de OK / REP por día
+function excl(el) {
+  if (!el.checked) return;
+  const other = document.getElementById(el.id.endsWith('_ok') ? el.id.replace(/_ok$/, '_rep') : el.id.replace(/_rep$/, '_ok'));
+  if (other) other.checked = false;
+}
+
+function render() {
+  const cb = (id, c, f) => `<td class="p-1 border-r border-slate-300 text-center ${f}"><input type="checkbox" id="${id}" onchange="excl(this)" class="w-4 h-4 ${c} rounded cursor-pointer"></td>`;
+  document.getElementById('sections').innerHTML = SECCIONES.map((s, si) => {
+    const head2 = DIAS.map(() => `<th class="p-1 text-center border-r border-slate-700 bg-emerald-900 w-9">OK</th><th class="p-1 text-center border-r border-slate-700 bg-rose-900 w-9">REP</th>`).join('');
+    const head1 = DIAS.map(d => `<th colspan="2" class="p-1.5 text-center border-b border-r border-slate-700 bg-slate-700">${d}</th>`).join('');
+    const rows = s.items.map((it, ii) => {
+      const id = `s${si}_${ii}`;
+      const cells = DIAS.map((_, d) => cb(`${id}_${d}_ok`, 'text-emerald-600', 'bg-emerald-50/40') + cb(`${id}_${d}_rep`, 'text-rose-600', 'bg-rose-50/40')).join('');
+      return `<tr class="hover:bg-slate-50 border-b border-slate-200">
+        <td class="p-2 border-r border-slate-300 font-semibold text-slate-800">${it[0]}</td>
+        <td class="p-2 border-r border-slate-300 text-slate-600 font-normal">${it[1]}</td>
+        ${cells}
+        <td class="p-1"><input type="text" id="${id}_obs" placeholder="Observación..." class="w-full px-2 py-1 border border-transparent focus:border-slate-300 rounded bg-transparent focus:bg-white outline-none"></td></tr>`;
+    }).join('');
+    return `<div class="overflow-x-auto rounded-lg border border-slate-900 shadow-sm">
+      <table class="w-full text-xs text-left border-collapse min-w-[1150px]">
+        <thead class="bg-slate-800 text-white uppercase tracking-wider font-bold">
+          <tr><th rowspan="2" class="p-2.5 border-r border-slate-700 w-48">${s.t}</th>
+              <th rowspan="2" class="p-2.5 border-r border-slate-700">Criterios (verificación)</th>${head1}
+              <th rowspan="2" class="p-2.5 w-44">OBSERVACIONES</th></tr>
+          <tr>${head2}</tr>
+        </thead>
+        <tbody class="divide-y divide-slate-300 bg-white font-medium">${rows}</tbody>
+      </table></div>`;
+  }).join('');
+
+  document.getElementById('acc').innerHTML = DIAS.map((d, i) => `
+    <tr class="border-b border-slate-200">
+      <td class="p-2 font-bold bg-slate-100 border-r border-slate-300">${d}</td>
+      <td class="p-1 border-r border-slate-300"><input id="ini_${i}" maxlength="4" class="w-full text-center uppercase border border-slate-200 rounded py-1"></td>
+      <td class="p-1 border-r border-slate-300"><input id="a_${i}" class="w-full px-2 py-1 border border-slate-200 rounded"></td>
+      <td class="p-1 border-r border-slate-300"><input id="dn_${i}" class="w-full px-2 py-1 border border-slate-200 rounded"></td>
+      <td class="p-1"><input type="date" id="fc_${i}" class="w-full px-2 py-1 border border-slate-200 rounded"></td></tr>`).join('');
+}
+
+function limpiar() {
+  if (!confirm('¿Borrar todos los datos de la semana?')) return;
+  const keep = ['marca','modelo','serie','bodega'];
+  document.querySelectorAll('#inspectionForm input').forEach(e => {
+    if (keep.includes(e.id)) return;
+    if (e.type === 'checkbox') e.checked = false;
+    else if (e.type === 'radio') return;
+    else e.value = '';
+  });
+  updateSignatures();
+}
+
+function generatePDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const v = id => document.getElementById(id).value || '';
+  const turno = document.querySelector('input[name="turno"]:checked').value;
+  const licencia = document.querySelector('input[name="licencia"]:checked').value;
+  const operador = v('operador') || 'N/A', supervisor = v('supervisor') || 'N/A';
+
+  // Encabezado
+  doc.setFillColor(30, 58, 138); doc.rect(10, 8, 277, 2.5, 'F');
+  doc.setFillColor(30, 58, 138); doc.roundedRect(10, 13, 22, 7, 1, 1, 'F');
+  doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.text('ACCESS', 21, 17.8, { align: 'center' });
+  doc.setTextColor(15, 23, 42); doc.setFontSize(12);
+  doc.text('INSPECCIÓN DIARIA DE SEGURIDAD – GRÚA ELÉCTRICA LIUGONG', 36, 18);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(100, 116, 139);
+  doc.text('POE: 1 / ed: 01  |  Fecha de edición: 15/06/2026  |  Fecha de revisión: 01/07/2026', 10, 24);
+
+  doc.autoTable({
+    startY: 26, theme: 'plain',
+    styles: { fontSize: 7.5, cellPadding: 1, textColor: [30, 41, 59] },
+    columnStyles: { 0: { fontStyle: 'bold', cellWidth: 38 }, 1: { cellWidth: 60 }, 2: { fontStyle: 'bold', cellWidth: 38 }, 3: { cellWidth: 55 }, 4: { fontStyle: 'bold', cellWidth: 38 }, 5: { cellWidth: 48 } },
+    body: [
+      ['Bodega / Instalación:', v('bodega'), 'Semana del:', v('fecha'), 'Turno:', turno],
+      ['Marca:', v('marca'), 'Modelo:', v('modelo'), 'N° de serie:', v('serie')],
+      ['Grúa conducida por:', operador, 'Licencia al día:', licencia, 'Supervisor:', supervisor],
+      ['Horómetro Entrada:', v('horometroEntrada'), 'Horómetro Salida:', v('horometroSalida'), 'Hora Insp. Ent. / Sal.:', `${v('horaEntrada')}  /  ${v('horaSalida')}`]
+    ]
+  });
+
+  // Tabla de checklist
+  const body = [];
+  SECCIONES.forEach((s, si) => {
+    body.push([{ content: s.t, colSpan: 17, styles: { fillColor: [15, 23, 42], textColor: 255, fontStyle: 'bold' } }]);
+    s.items.forEach((it, ii) => {
+      const id = `s${si}_${ii}`;
+      const row = [it[0], it[1]];
+      DIAS.forEach((_, d) => {
+        row.push(document.getElementById(`${id}_${d}_ok`).checked ? 'X' : '');
+        row.push(document.getElementById(`${id}_${d}_rep`).checked ? 'X' : '');
+      });
+      row.push(v(`${id}_obs`));
+      body.push(row);
+    });
+  });
+  const ini = [{ content: 'Iniciales del operador del día', colSpan: 2, styles: { halign: 'right' } }];
+  DIAS.forEach((_, d) => ini.push({ content: v('ini_' + d).toUpperCase(), colSpan: 2, styles: { halign: 'center' } }));
+  ini.push('');
+  body.push(ini.map(c => { const o = typeof c === 'string' ? { content: c } : c; o.styles = Object.assign({ fillColor: [203, 213, 225], fontStyle: 'bold' }, o.styles || {}); return o; }));
+
+  const sub = [];
+  DIAS.forEach(() => { sub.push({ content: 'OK', styles: { fillColor: [5, 150, 105], halign: 'center' } }); sub.push({ content: 'REP', styles: { fillColor: [190, 18, 60], halign: 'center' } }); });
+  const cs = { 0: { cellWidth: 38, fontStyle: 'bold' }, 1: { cellWidth: 62 }, 16: { cellWidth: 'auto' } };
+  for (let i = 2; i <= 15; i++) cs[i] = { cellWidth: 7.5, halign: 'center' };
+
+  doc.autoTable({
+    startY: doc.lastAutoTable.finalY + 3, theme: 'grid',
+    head: [
+      [{ content: 'Punto de inspección', rowSpan: 2, styles: { valign: 'middle' } }, { content: 'Criterios (verificación)', rowSpan: 2, styles: { valign: 'middle' } },
+        ...DIAS.map(d => ({ content: d, colSpan: 2, styles: { halign: 'center', fillColor: [51, 65, 85] } })),
+        { content: 'Observaciones', rowSpan: 2, styles: { valign: 'middle' } }],
+      sub
+    ],
+    body, headStyles: { fillColor: [30, 41, 59], textColor: 255, fontStyle: 'bold', fontSize: 6.5 },
+    styles: { fontSize: 6.3, cellPadding: 0.8, overflow: 'linebreak' }, columnStyles: cs,
+    didParseCell: d => {
+      if (d.section === 'body' && d.column.index >= 2 && d.column.index <= 15 && d.cell.raw === 'X') {
+        const ok = d.column.index % 2 === 0;
+        d.cell.styles.fillColor = ok ? [209, 250, 229] : [254, 205, 211];
+        d.cell.styles.textColor = ok ? [6, 95, 70] : [159, 18, 57];
+        d.cell.styles.fontStyle = 'bold';
+      }
+    }
+  });
+
+  // Acciones correctivas
+  doc.autoTable({
+    startY: doc.lastAutoTable.finalY + 4, theme: 'grid',
+    head: [['Día', 'Acciones correctivas / comentarios', 'Daño', 'Fecha en que se completó']],
+    body: DIAS.map((d, i) => [d, v('a_' + i), v('dn_' + i), v('fc_' + i)]),
+    headStyles: { fillColor: [30, 41, 59], fontSize: 7 }, styles: { fontSize: 7, cellPadding: 1 },
+    columnStyles: { 0: { cellWidth: 25, fontStyle: 'bold' }, 2: { cellWidth: 60 }, 3: { cellWidth: 40 } }
+  });
+
+  // Firmas
+  let y = doc.lastAutoTable.finalY + 18;
+  if (y > 190) { doc.addPage(); y = 40; }
+  doc.setDrawColor(30, 58, 138);
+  const firma = (x, nombre, label) => {
+    doc.line(x, y, x + 75, y);
+    doc.setFont('times', 'italic'); doc.setFontSize(14); doc.setTextColor(30, 58, 138); doc.text(nombre, x + 2, y - 2);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(15, 23, 42); doc.text(label, x, y + 4);
+  };
+  firma(25, operador, 'Firma Operador de Grúa');
+  firma(130, supervisor, 'V°B° Y Firma Supervisor de Grúas');
+  doc.text('Nro. de certificado: ' + v('cert'), 215, y + 4);
+
+  doc.save(`INSPECCION_GRUA_LIUGONG_${(v('fecha') || 'sin_fecha').replace(/[^a-zA-Z0-9]/g, '_')}.pdf`);
+}
+</script>
+</body>
+</html>
